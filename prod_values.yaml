@@ -12,7 +12,7 @@ cp-zookeeper:
   ## https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
   imagePullSecrets:
   #  - name: "regcred"
-  heapOptions: "-Xms4G -Xmx4G"
+  heapOptions: "-Xms4G -Xmx4G -Djava.net.preferIPv4Stack=true"
   persistence:
     enabled: true
     ## The size of the PersistentVolume to allocate to each Zookeeper Pod in the StatefulSet. For

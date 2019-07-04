@@ -25,6 +25,13 @@ spec:
         prometheus.io/port: {{ .Values.prometheus.jmx.port | quote }}
       {{- end }}
     spec:
+{{- if .Values.tolerations }}
+      tolerations:
+      - key: dedicated
+        operator: Equal
+        value: kafka
+        effect: NoSchedule
+{{- end }}
       affinity:
   {{- if .Values.nodeAffinity }}
         nodeAffinity:
@@ -134,13 +141,6 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /opt/kafka/data
-{{- if .Values.tolerations }}
-        tolerations:
-        - key: dedicated
-          operator: Equal
-          value: kafka
-          effect: NoSchedule
-{{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}

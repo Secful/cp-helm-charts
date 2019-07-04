@@ -24,6 +24,13 @@ spec:
         prometheus.io/port: {{ .Values.prometheus.jmx.port | quote }}
       {{- end }}
     spec:
+{{- if .Values.tolerations }}
+      tolerations:
+      - key: dedicated
+        operator: Equal
+        value: kafka
+        effect: NoSchedule
+{{- end }}
       affinity:
   {{- if .Values.nodeAffinity }}
         nodeAffinity:
@@ -131,13 +138,6 @@ spec:
           mountPath: /var/lib/zookeeper/data
         - name: datalogdir
           mountPath: /var/lib/zookeeper/log
-{{- if .Values.tolerations }}
-        tolerations:
-        - key: dedicated
-          operator: Equal
-          value: zookeeper
-          effect: NoSchedule
-{{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
