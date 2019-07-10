@@ -25,23 +25,23 @@ spec:
         prometheus.io/port: {{ .Values.prometheus.jmx.port | quote }}
       {{- end }}
     spec:
-{{- if .Values.tolerations }}
+{{- if .Values.scheduling.tolerations }}
       tolerations:
-      - key: dedicated
+      - key: {{ .Values.scheduling.key }}
         operator: Equal
-        value: kafka
+        value: {{ .Values.scheduling.value }}
         effect: NoSchedule
 {{- end }}
       affinity:
-  {{- if .Values.nodeAffinity }}
+  {{- if .Values.scheduling.nodeAffinity }}
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: "dedicated"
+              - key: "{{ .Values.scheduling.key }}"
                 operator: In
                 values:
-                - "kafka"
+                - "{{ .Values.scheduling.value }}"
   {{- end }}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

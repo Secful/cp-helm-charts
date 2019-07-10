@@ -34,8 +34,11 @@ cp-zookeeper:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
-  tolerations: true
-  nodeAffinity: true
+  scheduling:
+    tolerations: true
+    nodeAffinity: true
+    key: shared
+    value: databases
 
 ## ------------------------------------------------------
 ## Kafka
@@ -78,8 +81,11 @@ cp-kafka:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
-  tolerations: true
-  nodeAffinity: true
+  scheduling:
+    tolerations: true
+    nodeAffinity: true
+    key: shared
+    value: databases
 
 ## ------------------------------------------------------
 ## Schema Registry
